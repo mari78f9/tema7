@@ -10,11 +10,11 @@
             width: 100%;
         }
 
-        .knapper {
+        header {
             text-align: center;
         }
 
-        .kKnap {
+        .valgt {
             background-color: crimson;
         }
 
@@ -46,12 +46,12 @@
 </head>
 
 <body>
-    <div class="knapper">
-        <button class="alleKnap" data-køn="alle">Alle</button>
-        <button class="kKnap" data-køn="k">Kvinder</button>
-        <button class="mKnap" data-køn="m">Mænd</button>
-        <button class="andetKnap" data-køn="andet">Andet</button>
-    </div>
+    <header>
+        <button class="filter" data-køn="alle">Alle</button>
+        <button class="filter valgt" data-køn="k">Kvinder</button>
+        <button class="filter" data-køn="m">Mænd</button>
+        <button class="filter" data-køn="andet">Andet</button>
+    </header>
     <section class="data"></section>
 
     <template>
