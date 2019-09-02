@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <div id="content">
+        <div><a href="https://kea.dk/">KEA</a></div>
+        <div><a href="https://github.com/mari78f9/tema7">Git</a></div>
+        <div><img src="http://mabe-kea.dk/E19/pics/frog.png"></div>
+    </div>
+    <script>
+        const content = document.querySelector("#content");
+        const første = document.querySelector("#content div a");
+        const anden = document.querySelector("#content div:nth-child(2)");
+        const sidste = document.querySelector("#content div + div + div img");
+
+        content.innerHTML += "<h1>Link til KEA's hjemmeside</h1>";
+
+        console.log(content);
+        console.log(første);
+        console.log(anden);
+        console.log(sidste);
+    </script>
+</body></html>
