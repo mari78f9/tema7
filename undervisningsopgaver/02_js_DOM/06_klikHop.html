@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+    <style>
+        .firkant {
+            background-color: green;
+            height: 100px;
+            width: 100px;
+        }
+
+        .cirkel {
+            background-color: red;
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="firkant"></div>
+    <div class="cirkel"></div>
+    <script>
+        let frøURL = `http://mabe-kea.dk/E19/pics/frog.png`;
+        let grisURL = `http://mabe-kea.dk/E19/pics/pig.png`;
+
+        document.addEventListener("DOMContentLoaded", start);
+
+        function start() {
+            console.log("start");
+            let grøn = document.querySelector(".firkant");
+            let rød = document.querySelector(".cirkel");
+
+            grøn.innerHTML = `<img src = ${frøURL} alt="frø">`;
+            rød.innerHTML = `<img src = ${grisURL} alt="gris">`;
+
+            grøn.addEventListener("click", flyt);
+            rød.addEventListener("click", stop);
+
+            function flyt() {
+                let grønStart = grøn.innerHTML;
+                grøn.innerHTML = rød.innerHTML;
+                rød.innerHTML = grønStart;
+            }
+
+            function stop() {
+                grøn.removeEventListener("click", flyt);
+            }
+        }
+    </script>
+</body></html>
