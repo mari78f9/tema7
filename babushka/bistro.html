@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+    <title>Document</title>
+
+    <style>
+        img {
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 4rem;
+            margin: -200px 0 140px 0;
+            font-family: 'Playfair Display', serif;
+            font-weight: lighter;
+            color: red;
+        }
+
+        h2,
+        h3 {
+            font-family: 'Oswald', sans-serif;
+        }
+
+        p {
+            font-family: 'Oswald', sans-serif;
+            margin: 5px;
+        }
+
+        .menu {
+            text-align: center;
+            font-size: 3rem;
+        }
+
+        button {
+            border: none;
+            border-radius: 10%;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .valgt {
+            background-color: coral;
+            border: none;
+            border-radius: 10%;
+        }
+
+        .data {
+            margin: 5px;
+            display: grid;
+            grid-gap: 30px;
+            grid-template-columns: repeat(1, 1fr);
+            max-width: 100%;
+        }
+
+        article {
+            border: solid black 1px;
+        }
+
+        .titel {
+            background-color: orange;
+            margin: -10px;
+            width: 100vw;
+            height: 40vh;
+
+        }
+
+        @media screen and (min-width: 501px) {
+            h1 {
+                font-size: 4rem;
+            }
+        }
+
+        @media screen and (min-width: 1025px) {
+            h1 {
+                font-size: 8rem;
+            }
+        }
+
+        @media screen and (min-width: 501px) {
+            h2 {
+                margin: 10px;
+            }
+        }
+
+        @media screen and (min-width: 1025px) {
+            h2 {
+                margin: 10px 10px 20px 100px;
+            }
+        }
+
+        @media screen and (min-width: 501px) {
+            .data {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media screen and (min-width: 1025px) {
+            .data {
+                grid-template-columns: repeat(3, 1fr);
+                margin: 10px 100px 10px 100px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="titel"> </div>
+    <h1>Bistro Babushka</h1>
+    <nav class="menu">
+        <button class="filter valgt" data-kategori="alle">Alle</button>
+        <button class="filter" data-kategori="forretter">Forretter</button>
+        <button class="filter" data-kategori="hovedretter">Hovedretter</button>
+        <button class="filter" data-kategori="desserter">Desserter</button>
+        <button class="filter" data-kategori="drikkevarer">Drikkevarer</button>
+    </nav>
+    <h2>Menu</h2>
+    <section class="data"></section>
+    <template>
+        <article>
+            <img src="" alt="">
+            <h3></h3>
+            <p class="kort"></p>
+            <p class="pris"></p>
+            <p class="id"></p>
+        </article>
+
+    </template>
+
+    <script>
+        let alleRetter = [];
+        let filter = "alle";
+        const container = document.querySelector(".data");
+        const templateContainer = document.querySelector("template");
+        document.addEventListener("DOMContentLoaded", hentJson);
+
+        async function hentJson() {
+            let jsonData = await fetch("https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json");
+            alleRetter = await jsonData.json();
+            visRetter();
+            addEventListenersToButtons();
+        }
+
+        function visRetter() {
+            container.innerHTML = "";
+            alleRetter.feed.entry.forEach((ret) => {
+                if (filter == "alle" || filter == ret.gsx$kategori.$t) {
+                    let klon = templateContainer.cloneNode(true).content;
+                    klon.querySelector("img").src = `images/small/${ret.gsx$billede.$t}-sm.jpg`;
+                    klon.querySelector("h3").textContent = ret.gsx$navn.$t;
+                    klon.querySelector(".kort").textContent = ret.gsx$kort.$t;
+                    klon.querySelector(".pris").textContent = `Pris: ${ret.gsx$pris.$t},-`;
+                    container.appendChild(klon);
+                    container.lastElementChild.addEventListener("click", () => {
+                        location.href = `singleView
+.html?id=${ret.gsx$id.$t}`;
+                    });
+                }
+            });
+        }
+
+        function addEventListenersToButtons() {
+            document.querySelectorAll(".filter").forEach(elm => {
+                elm.addEventListener("click", filtrering);
+            })
+        }
+
+        function filtrering() {
+            filter = this.dataset.kategori;
+            document.querySelector("h1").textContent = this.textContent;
+            document.querySelectorAll(".filter").forEach(elm => {
+                elm.classList.remove("valgt");
+            })
+            this.classList.add("valgt");
+            console.log("FIL", filter);
+            visRetter();
+        }
+    </script>
+
+</body></html>
